@@ -52,7 +52,7 @@ namespace :import do
     doc.search("//tr").each do |row|
       if row.search("td[@class='n']") && 
          row.search("td[@class='n']").inner_html =~ /^namesterritory$/ && 
-         row.search("td[@class='g']").inner_html =~ /^[A-Z]{2}/
+         row.search("td[@class='g']").inner_html =~ /^[A-Z]{2}$/
         code   = row.search("td[@class='g']").inner_text
         code   = code[-code.size, 2]
         name   = row.search("td[@class='v']").inner_text
@@ -63,7 +63,8 @@ namespace :import do
 
 
     # ----- Prepare the output format     ------------------------------------------
-    output =<<HEAD
+    output = "#encoding: UTF-8\n"
+    output <<<<HEAD
 { :#{locale} => {
 
     :countries => {
@@ -81,10 +82,10 @@ TAIL
     
     # ----- Write the parsed values into file      ---------------------------------
     puts "\n... writing the output"
-    filename = File.join(File.dirname(__FILE__), '..', '..', 'locale', "#{locale}.rb")
+    filename = File.join(Rails.root, 'config', 'locales', "localized_country_select.#{locale}.rb")
     filename += '.NEW' if File.exists?(filename) # Append 'NEW' if file exists
     File.open(filename, 'w+') { |f| f << output }
-    puts "\n---\nWritten values for the '#{locale}' into file: #{filename}\n"
+    puts "\n---\nWritten values for the locale '#{locale}' into file: #{filename}\n"
     # ------------------------------------------------------------------------------
   end
 

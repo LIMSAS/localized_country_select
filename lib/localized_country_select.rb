@@ -1,3 +1,6 @@
+require 'rake'
+load 'tasks/localized_country_select_tasks.rake'
+
 # = LocalizedCountrySelect
 # 
 # View helper for displaying select list with countries:
